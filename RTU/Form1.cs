@@ -12,9 +12,16 @@ namespace RTU
 {
     public partial class Form1 : Form
     {
+        Model mod;
         public Form1()
         {
             InitializeComponent();
+            mod = new Model(this);
+        }
+
+        private void buttonRun_Click(object sender, EventArgs e)
+        {
+            mod.run();
         }
     }
 }
