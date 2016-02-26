@@ -57,8 +57,15 @@ namespace RTU
             public double x;
             public double y;
         }
-        
 
+        RLS[] rls = new RLS[10];
+        OP[] op = new OP[10];
+        DTr[] dtr = new DTr[10];
+
+        /// <summary>
+        /// Конструктор в котором элементы программы заполняются значениями
+        /// </summary>
+        /// <param name="refer"></param>
         public Model(Form1 refer)  //конструктор
         {
             form = refer;
@@ -67,17 +74,6 @@ namespace RTU
             DatGridV opDG = new DatGridV(form.dataGridViewOp, new string[] { "ОП", "X", "Y", "H" }, 4, 9, true);
             DatGridV datDG = new DatGridV(form.dataGridViewDTr, new string[] { "Секунда", "X", "Y" }, 3, 9, false);
 
-            tabl();
-        }
-
-        RLS[] rls = new RLS[10];
-        OP[] op = new OP[10];
-        DTr[] dtr = new DTr[10];
-
-
-        // Заполняем таблицу данными и присваиваем значения переменным
-        void tabl()
-        {
             DataSet dt = getTabl("SELECT name, x, y, h FROM rls");
             for (int i = 0; i < dt.Tables[0].Rows.Count; i++)
             {
