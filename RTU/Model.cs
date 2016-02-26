@@ -8,6 +8,9 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace RTU
 {
+    /// <summary>
+    /// Класс в котором происходит основная работа программы
+    /// </summary>
     class Model
     {
         Form1 form;
@@ -18,21 +21,25 @@ namespace RTU
         Excel.Worksheet excelworksheet;
         Excel.Range excelcells;
 
-        int numberstr; //количество строк в табличках с данными
+        /// <summary>
+        /// количество строк в табличках с данными
+        /// </summary>
+        int numberstr; 
 
-        struct RLS  //Данные по РЛС
+        /// <summary>
+        /// Данные по РЛС
+        /// </summary>
+        struct RLS  
         {
             public string name;
             public double x;
             public double y;
             public double h;
         }
-       
-
-        //
-        // Сводка:
-        //     Данные по ОП
-        //
+ 
+        /// <summary>
+        /// Данные по ОП
+        /// </summary>
         struct OP
         {
             public string name;
@@ -41,8 +48,10 @@ namespace RTU
             public double h;
         }
         
-
-        struct DTr  //Данные по траектории
+        /// <summary>
+        /// Данные по траектории
+        /// </summary>
+        struct DTr  
         {
             public int sec;
             public double x;
@@ -53,24 +62,18 @@ namespace RTU
         public Model(Form1 refer)  //конструктор
         {
             form = refer;
-            init();
+   
+            DatGridV rlsDG = new DatGridV(form.dataGridViewRls, new string[] { "РЛС", "X", "Y", "H" }, 4, 9, true);
+            DatGridV opDG = new DatGridV(form.dataGridViewOp, new string[] { "ОП", "X", "Y", "H" }, 4, 9, true);
+            DatGridV datDG = new DatGridV(form.dataGridViewDTr, new string[] { "Секунда", "X", "Y" }, 3, 9, false);
+
+            tabl();
         }
 
         RLS[] rls = new RLS[10];
         OP[] op = new OP[10];
         DTr[] dtr = new DTr[10];
 
-
-        //функция инициализации элементов формы и переменных
-        private void init()
-        {
-            DatGridV rlsDG = new DatGridV(form.dataGridViewRls, new string[] { "РЛС", "X", "Y", "H" }, 4, 9, true);
-            DatGridV opDG = new DatGridV(form.dataGridViewOp, new string[] { "ОП", "X", "Y", "H" }, 4, 9, true);
-            DatGridV datDG = new DatGridV(form.dataGridViewDTr, new string[] { "Секунда", "X", "Y" }, 3, 9, false);
-            
-            tabl();
-
-        }
 
         // Заполняем таблицу данными и присваиваем значения переменным
         void tabl()
