@@ -5,6 +5,7 @@ using System.Text;
 using System.Data.SQLite;
 using System.Data;
 using Excel = Microsoft.Office.Interop.Excel;
+using ReCoord;
 
 namespace RTU
 {
@@ -22,9 +23,9 @@ namespace RTU
         Excel.Range excelcells;
 
         /// <summary>
-        /// количество строк в табличках с данными
+        /// количество точек траектории
         /// </summary>
-        int numberstr; 
+        int numberTr; 
 
         /// <summary>
         /// Данные по РЛС
@@ -101,6 +102,11 @@ namespace RTU
             }
         }
 
+        /// <summary>
+        /// получение данных ид БД SQLite
+        /// </summary>
+        /// <param name="query">строка с запросом</param>
+        /// <returns>объект DataSet</returns>
         // получаем данные ид БД SQLite
         DataSet getTabl(string query)
         {
@@ -114,6 +120,10 @@ namespace RTU
             conn.Dispose();
             return ds;
         }
+
+        /// <summary>
+        /// Запуск работы программы
+        /// </summary>
         public void run()
         {
             excelapp = new Excel.Application();
@@ -130,10 +140,14 @@ namespace RTU
                 dtr[i].y = Convert.ToDouble(form.dataGridViewDTr[2, i].Value);
                 i++;
             }
-            numberstr = i;
+            numberTr = i;
             exceltabl();
 
         }
+
+        /// <summary>
+        /// Заполняем лист Excel данными
+        /// </summary>
         void exceltabl()
         {
             excelapp.Workbooks.Add(Type.Missing);
@@ -142,11 +156,12 @@ namespace RTU
             excelsheets = excelappworkbook.Worksheets;
             excelworksheet = (Excel.Worksheet)excelsheets.get_Item(1);
 
-            excelworksheet.PageSetup.PrintTitleRows = "A1"; //Печатаем заголовок на каждой странице
+            excelworksheet.PageSetup.PrintTitleRows = "A1"; // Замораживаем строку заголовка на каждой странице
             excelworksheet.PageSetup.RightMargin = 40; //устанавливаем размер левого поля
             excelworksheet.PageSetup.TopMargin = 35; //устанавливаем размер верхнего поля
             excelworksheet.Name = op[0].name;  //устанавливваем имя листа
 
+            //устанавливаем ширину столбцов и параметры шрифта первой строки и отображаем первую строку
             excelcells = excelworksheet.Range["A1", Type.Missing];
             excelcells.EntireColumn.ColumnWidth = 1;
 
@@ -189,20 +204,27 @@ namespace RTU
                 for (int a = 0; a <= s; a++)
                 {
                     b = Convert.ToInt32(form.textBoxD1.Text) + a * Convert.ToInt32(form.textBoxStep.Text); // высчитываем направление
-                    exceltabtu(st, r, b.ToString());
-                    st = st + numberstr + 3;
+                    excelTabTU(st, r, b);
+                    st = st + numberTr + 3;
                 }
                 b = 0;
                 r++;
             }
         }
 
-        void exceltabtu(int a, int rl, string napr)
+        /// <summary>
+        /// Рисуем табличку с точками упреждения
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="rl"></param>
+        /// <param name="napr"></param>
+        void excelTabTU(int a, int rl, double napr)
         {
+            
 
             excelcells = excelworksheet.get_Range("B" + a.ToString(), "J" + a.ToString());
             excelcells.Merge();
-            excelcells.Value2 = rls[rl].name + "    " + napr + "°";
+            excelcells.Value2 = rls[rl].name + "    " + napr.ToString() + "°";
             excelcells.EntireRow.Font.Size = 14;
             excelcells.EntireRow.Font.Bold = true;
 
@@ -249,44 +271,45 @@ namespace RTU
             excelcells.Value2 = "в ДУ";
 
             //форматируем табличку с данными
-            excelcells = excelworksheet.get_Range("B" + a.ToString(), "J" + (a + numberstr + 2).ToString());
+            excelcells = excelworksheet.get_Range("B" + a.ToString(), "J" + (a + numberTr + 2).ToString());
             excelcells.HorizontalAlignment = Excel.Constants.xlCenter;
             excelcells.VerticalAlignment = Excel.Constants.xlCenter;
             excelcells.Font.Name = "Times New Roman";
-            excelcells = excelworksheet.get_Range("B" + (a + 1).ToString(), "J" + (a + numberstr + 2).ToString());
+            excelcells = excelworksheet.get_Range("B" + (a + 1).ToString(), "J" + (a + numberTr + 2).ToString());
             excelcells.Borders.ColorIndex = 1;
             excelcells.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
 
-            //заполняем табличку данными
-            for (int i = 0; i < numberstr; i++)
+            //заполняем табличку значениями
+            for (int i = 0; i < numberTr; i++)
             {
+                RCoord rc = new RCoord(dtr[i].x, dtr[i].y, op[0].x, op[0].y, op[0].h, rls[rl].x, rls[rl].y, rls[rl].h, napr);
+
                 excelcells = excelworksheet.get_Range("B" + (a + i + 3).ToString(), Type.Missing); // секунда
                 excelcells.Value2 = dtr[i].sec;
 
                 excelcells = excelworksheet.get_Range("C" + (a + i + 3).ToString(), Type.Missing); // X топографическая
-                excelcells.Value2 = xt(napr, 0, i);
+                excelcells.Value2 = rc.GetXtr;
 
                 excelcells = excelworksheet.get_Range("D" + (a + i + 3).ToString(), Type.Missing); // Y топографическая
-                excelcells.Value2 = yt(napr, 0, i);
+                excelcells.Value2 = rc.GetYtr;
 
                 excelcells = excelworksheet.get_Range("E" + (a + i + 3).ToString(), Type.Missing); // высота
                 excelcells.Value2 = zt(0, i);
 
-                double dnak = dnakl(xt(napr, 0, i), yt(napr, 0, i), rl);
                 excelcells = excelworksheet.get_Range("F" + (a + i + 3).ToString(), Type.Missing); // наклонная дальность
-                excelcells.Value2 = dnak;
+                excelcells.Value2 = rc.getDnakl;
 
                 excelcells = excelworksheet.get_Range("G" + (a + i + 3).ToString(), Type.Missing); // азимут в градусах
-                excelcells.Value2 = gradus(azimut(xt(napr, 0, i), yt(napr, 0, i), rl));
+                excelcells.Value2 = rc.ToGrad(rc.GetAlf) + "° " + rc.ToMin(rc.GetAlf) + "' " + rc.ToSec(rc.GetAlf) + "''";
 
                 excelcells = excelworksheet.get_Range("H" + (a + i + 3).ToString(), Type.Missing); // азимут в ДУ
-                excelcells.Value2 = delug(Math.Round(azimut(xt(napr, 0, i), yt(napr, 0, i), rl) * 6000 / 360).ToString());
+                excelcells.Value2 = rc.ToDU(rc.GetAlf);
 
                 excelcells = excelworksheet.get_Range("I" + (a + i + 3).ToString(), Type.Missing); // угол места в градусах
-                excelcells.Value2 = gradus(ugmest(xt(napr, 0, i), yt(napr, 0, i), 0, rl, i));
+                excelcells.Value2 = rc.ToGrad(rc.GetUMC) + "° " + rc.ToMin(rc.GetUMC) + "' " + rc.ToSec(rc.GetUMC) + "''";
 
                 excelcells = excelworksheet.get_Range("J" + (a + i + 3).ToString(), Type.Missing); // угол места в в делениях угломера
-                excelcells.Value = delug(Math.Round(ugmest(xt(napr, 0, i), yt(napr, 0, i), 0, rl, i) * 6000 / 360).ToString());
+                excelcells.Value = rc.ToDU(rc.GetUMC);
 
             }
         }
