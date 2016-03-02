@@ -295,6 +295,8 @@ namespace RTU
             excelcells = excelworksheet.get_Range("B" + (a + 1).ToString(), "I" + (a + numberTr + 2).ToString());
             excelcells.Borders.ColorIndex = 1;
             excelcells.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+            excelcells = excelworksheet.get_Range("I" + a.ToString(), "I" + (a + numberTr + 2).ToString());
+            excelcells.NumberFormat = "@"; // устанавливаем текстовый формат ячеек
 
             excelcells = excelworksheet.get_Range("B" + a.ToString(), "I" + a.ToString());
             excelcells.Merge();
