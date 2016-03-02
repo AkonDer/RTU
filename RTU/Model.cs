@@ -23,10 +23,16 @@ namespace RTU
         Excel.Worksheet excelworksheet;
         Excel.Range excelcells;
 
+        Form2 form2 = new Form2();
+
         /// <summary>
         /// количество точек траектории
         /// </summary>
         int numberTr;
+        /// <summary>
+        /// количество шагов расчета для реализации прогрессбара
+        /// </summary>
+        int numberStep;
 
         /// <summary>
         /// Данные по РЛС
@@ -136,6 +142,8 @@ namespace RTU
                 i++;
             }
             numberTr = i;
+            form2.progressBar1.Value = 0;
+            form2.Show();
             exceltabl();
         }
 
@@ -171,6 +179,8 @@ namespace RTU
                     continue;
                 }
             }
+
+            numberStep = numberOP * numberRLS; 
 
             if (numberOP != 0 && numberRLS != 0)
             {
@@ -233,6 +243,7 @@ namespace RTU
                     excelcells.EntireRow.Font.Bold = true;
 
                     int s = (Convert.ToInt32(form.textBoxD2.Text) - Convert.ToInt32(form.textBoxD1.Text)) / Convert.ToInt32(form.textBoxStep.Text);
+                    numberStep = numberStep * s;
                     int st = 2; // шаг через который начинать рисовать новую табличку
 
                     int b; //направления стрельбы
@@ -253,12 +264,21 @@ namespace RTU
                             b = Convert.ToInt32(form.textBoxD1.Text) + a * Convert.ToInt32(form.textBoxStep.Text); // высчитываем направление
                             excelTabTU(st, r, l, b);
                             st = st + numberTr + 3;
+                            try
+                            {
+                                form2.progressBar1.Value = form2.progressBar1.Value + 100 / numberStep;
+                            }
+                            catch (Exception)
+                            {
+                                form2.progressBar1.Value = 100;
+                            }
                         }
                         b = 0;
                     }
                     numberList++;
                 }
                 excelapp.Visible = true; // показываем наш лист excel
+                form2.Hide();
             }
             else {
                 if (numberOP == 0) MessageBox.Show("Выберите огневую позицию");
