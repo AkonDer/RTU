@@ -71,7 +71,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 42);
+            this.label2.Location = new System.Drawing.Point(42, 42);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(99, 13);
             this.label2.TabIndex = 0;
@@ -81,7 +81,7 @@
             // 
             this.textBoxTet.Location = new System.Drawing.Point(147, 39);
             this.textBoxTet.Name = "textBoxTet";
-            this.textBoxTet.Size = new System.Drawing.Size(100, 20);
+            this.textBoxTet.Size = new System.Drawing.Size(27, 20);
             this.textBoxTet.TabIndex = 1;
             this.textBoxTet.Text = "50";
             // 
@@ -101,22 +101,25 @@
             this.textBoxD1.Size = new System.Drawing.Size(33, 20);
             this.textBoxD1.TabIndex = 1;
             this.textBoxD1.Text = "230";
+            this.textBoxD1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxD2
             // 
-            this.textBoxD2.Location = new System.Drawing.Point(363, 39);
+            this.textBoxD2.Location = new System.Drawing.Point(354, 39);
             this.textBoxD2.Name = "textBoxD2";
             this.textBoxD2.Size = new System.Drawing.Size(33, 20);
             this.textBoxD2.TabIndex = 1;
             this.textBoxD2.Text = "238";
+            this.textBoxD2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxStep
             // 
-            this.textBoxStep.Location = new System.Drawing.Point(469, 39);
+            this.textBoxStep.Location = new System.Drawing.Point(449, 39);
             this.textBoxStep.Name = "textBoxStep";
-            this.textBoxStep.Size = new System.Drawing.Size(33, 20);
+            this.textBoxStep.Size = new System.Drawing.Size(28, 20);
             this.textBoxStep.TabIndex = 1;
             this.textBoxStep.Text = "2";
+            this.textBoxStep.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label4
             // 
@@ -130,7 +133,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(339, 42);
+            this.label5.Location = new System.Drawing.Point(330, 42);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(19, 13);
             this.label5.TabIndex = 0;
@@ -139,7 +142,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(414, 42);
+            this.label6.Location = new System.Drawing.Point(394, 42);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(49, 13);
             this.label6.TabIndex = 0;
@@ -171,9 +174,9 @@
             // 
             // buttonRun
             // 
-            this.buttonRun.Location = new System.Drawing.Point(766, 12);
+            this.buttonRun.Location = new System.Drawing.Point(540, 12);
             this.buttonRun.Name = "buttonRun";
-            this.buttonRun.Size = new System.Drawing.Size(97, 41);
+            this.buttonRun.Size = new System.Drawing.Size(323, 41);
             this.buttonRun.TabIndex = 4;
             this.buttonRun.Text = "Рассчетать";
             this.buttonRun.UseVisualStyleBackColor = true;
@@ -231,7 +234,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "Расчет точек упреждения";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRls)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDTr)).EndInit();

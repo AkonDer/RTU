@@ -6,6 +6,7 @@ using System.Data.SQLite;
 using System.Data;
 using Excel = Microsoft.Office.Interop.Excel;
 using ReCoord;
+using System.Windows.Forms;
 
 namespace RTU
 {
@@ -126,9 +127,7 @@ namespace RTU
         /// </summary>
         public void run()
         {
-            excelapp = new Excel.Application();
-            excelapp.Visible = true;
-            excelapp.SheetsInNewWorkbook = 3; // возвращает или устанавливает количество листов
+            
 
             /* excelcells = (Excel.Range)excelworksheet.Cells[1, 1];
             excelcells.Value2 = 23;*/
@@ -150,92 +149,116 @@ namespace RTU
         /// </summary>
         void exceltabl()
         {
-            excelapp.Workbooks.Add(Type.Missing);
-            excelappworkbooks = excelapp.Workbooks;
-            excelappworkbook = excelappworkbooks[1];
-            excelsheets = excelappworkbook.Worksheets;
-
-            int numberList = 1; // номер текущего листа
+            // проверяем выбрана ли хоть одна огневая позиция
+            int numberOP = 0; // количество огневых позиций выбранных пользователем
             for (int l = 0; form.dataGridViewOp[0, l].Value != null; l++)
             {
-                //проверка отмечен ли соответствующий чекбокс c обработкой ошибки                  
                 try
                 {
-                    if (!(bool)form.dataGridViewOp[4, l].Value) continue;
+                    if ((bool)form.dataGridViewOp[4, l].Value) numberOP++;
                 }
                 catch (Exception)
                 {
                     form.dataGridViewOp[4, l].Value = false;
                     continue;
                 }
+            }
 
-                excelworksheet = (Excel.Worksheet)excelsheets.get_Item(numberList);
-
-                excelworksheet.PageSetup.PrintTitleRows = "A1"; // Замораживаем строку заголовка на каждой странице
-                excelworksheet.PageSetup.RightMargin = 40; //устанавливаем размер левого поля
-                excelworksheet.PageSetup.TopMargin = 35; //устанавливаем размер верхнего поля
-                excelworksheet.Name = op[l].name;  //устанавливваем имя листа
-
-                //устанавливаем ширину столбцов и параметры шрифта первой строки и отображаем первую строку
-                excelcells = excelworksheet.Range["A1", Type.Missing];
-                excelcells.EntireColumn.ColumnWidth = 1;
-
-                excelcells = excelworksheet.Range["B1", Type.Missing];
-                excelcells.EntireColumn.ColumnWidth = 7;
-
-                excelcells = excelworksheet.Range["E1", "J1"];
-                excelcells.EntireColumn.ColumnWidth = 11;
-
-                excelcells = excelworksheet.get_Range("A1", "D1");
-                excelcells.Merge();
-                excelcells.Value2 = form.textBoxName.Text;
-                excelcells.HorizontalAlignment = Excel.Constants.xlCenter;
-                excelcells.EntireRow.Font.Size = 18;
-                excelcells.EntireRow.Font.Bold = true;
-
-                excelcells = excelworksheet.get_Range("F1", Type.Missing);
-                excelcells.Merge();
-                excelcells.Value2 = op[0].name;
-                excelcells.HorizontalAlignment = Excel.Constants.xlCenter;
-                excelcells.EntireRow.Font.Size = 18;
-                excelcells.EntireRow.Font.Bold = true;
-
-                excelcells = excelworksheet.get_Range("G1", "I1");
-                excelcells.Merge();
-                excelcells.Value2 = "Угол возвышения: Ɵ=" + form.textBoxTet.Text + "°";
-                excelcells.HorizontalAlignment = Excel.Constants.xlCenter;
-                excelcells.EntireRow.Font.Size = 16;
-                excelcells.EntireRow.Font.Bold = true;
+            if (numberOP !=0)
+            {
+                excelapp = new Excel.Application();
+                excelapp.Visible = true;
+                excelapp.SheetsInNewWorkbook = numberOP; // возвращает или устанавливает количество листов
+                excelapp.Workbooks.Add(Type.Missing);
+                excelappworkbooks = excelapp.Workbooks;
+                excelappworkbook = excelappworkbooks[1];
+                excelsheets = excelappworkbook.Worksheets;
 
 
-
-                int s = (Convert.ToInt32(form.textBoxD2.Text) - Convert.ToInt32(form.textBoxD1.Text)) / Convert.ToInt32(form.textBoxStep.Text);
-                int st = 2; // шаг через который начинать рисовать новую табличку
-
-                int b; //направления стрельбы
-                for (int r = 0; form.dataGridViewRls[0, r].Value != null; r++)
-                {   
-                    // обработка ошибки                  
+                int numberList = 1; // номер текущего листа
+                for (int l = 0; form.dataGridViewOp[0, l].Value != null; l++)
+                {
+                    //проверка отмечен ли соответствующий чекбокс c обработкой ошибки                  
                     try
                     {
-                        if (!(bool)form.dataGridViewRls[4, r].Value) continue;
+                        if (!(bool)form.dataGridViewOp[4, l].Value) continue;
                     }
                     catch (Exception)
                     {
-                        form.dataGridViewRls[4, r].Value = false;
+                        form.dataGridViewOp[4, l].Value = false;
                         continue;
                     }
-                    for (int a = 0; a <= s; a++)
+
+                    excelworksheet = (Excel.Worksheet)excelsheets.get_Item(numberList);
+
+                    excelworksheet.PageSetup.PrintTitleRows = "A1"; // Замораживаем строку заголовка на каждой странице
+                    excelworksheet.PageSetup.RightMargin = 40; //устанавливаем размер левого поля
+                    excelworksheet.PageSetup.TopMargin = 35; //устанавливаем размер верхнего поля
+                    excelworksheet.Name = op[l].name;  //устанавливваем имя листа
+
+                    //устанавливаем ширину столбцов и параметры шрифта первой строки и отображаем первую строку
+                    excelcells = excelworksheet.Range["A1", Type.Missing];
+                    excelcells.EntireColumn.ColumnWidth = 1;
+
+                    excelcells = excelworksheet.Range["B1", Type.Missing];
+                    excelcells.EntireColumn.ColumnWidth = 7;
+
+                    excelcells = excelworksheet.Range["E1", "J1"];
+                    excelcells.EntireColumn.ColumnWidth = 11;
+
+                    excelcells = excelworksheet.get_Range("A1", "D1");
+                    excelcells.Merge();
+                    excelcells.Value2 = form.textBoxName.Text;
+                    excelcells.HorizontalAlignment = Excel.Constants.xlCenter;
+                    excelcells.EntireRow.Font.Size = 18;
+                    excelcells.EntireRow.Font.Bold = true;
+
+                    excelcells = excelworksheet.get_Range("F1", Type.Missing);
+                    excelcells.Merge();
+                    excelcells.Value2 = op[0].name;
+                    excelcells.HorizontalAlignment = Excel.Constants.xlCenter;
+                    excelcells.EntireRow.Font.Size = 18;
+                    excelcells.EntireRow.Font.Bold = true;
+
+                    excelcells = excelworksheet.get_Range("G1", "I1");
+                    excelcells.Merge();
+                    excelcells.Value2 = "Угол возвышения: Ɵ=" + form.textBoxTet.Text + "°";
+                    excelcells.HorizontalAlignment = Excel.Constants.xlCenter;
+                    excelcells.EntireRow.Font.Size = 16;
+                    excelcells.EntireRow.Font.Bold = true;
+
+
+
+                    int s = (Convert.ToInt32(form.textBoxD2.Text) - Convert.ToInt32(form.textBoxD1.Text)) / Convert.ToInt32(form.textBoxStep.Text);
+                    int st = 2; // шаг через который начинать рисовать новую табличку
+
+                    int b; //направления стрельбы
+                    for (int r = 0; form.dataGridViewRls[0, r].Value != null; r++)
                     {
-                        b = Convert.ToInt32(form.textBoxD1.Text) + a * Convert.ToInt32(form.textBoxStep.Text); // высчитываем направление
-                        excelTabTU(st, r, l, b);
-                        st = st + numberTr + 3;
+                        // обработка ошибки                  
+                        try
+                        {
+                            if (!(bool)form.dataGridViewRls[4, r].Value) continue;
+                        }
+                        catch (Exception)
+                        {
+                            form.dataGridViewRls[4, r].Value = false;
+                            continue;
+                        }
+                        for (int a = 0; a <= s; a++)
+                        {
+                            b = Convert.ToInt32(form.textBoxD1.Text) + a * Convert.ToInt32(form.textBoxStep.Text); // высчитываем направление
+                            excelTabTU(st, r, l, b);
+                            st = st + numberTr + 3;
+                        }
+                        b = 0;
                     }
-                    b = 0;
-                }
-                numberList++;
+                    numberList++;
+                }                
             }
+            else MessageBox.Show("Выберите огневую позицию");
         }
+
         /// <summary>
         /// Рисуем табличку с точками упреждения
         /// </summary>
