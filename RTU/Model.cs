@@ -127,7 +127,7 @@ namespace RTU
         /// </summary>
         public void run()
         {
-            
+
 
             /* excelcells = (Excel.Range)excelworksheet.Cells[1, 1];
             excelcells.Value2 = 23;*/
@@ -149,7 +149,7 @@ namespace RTU
         /// </summary>
         void exceltabl()
         {
-            // проверяем выбрана ли хоть одна огневая позиция
+            // определяем сколько выбрано ОП
             int numberOP = 0; // количество огневых позиций выбранных пользователем
             for (int l = 0; form.dataGridViewOp[0, l].Value != null; l++)
             {
@@ -164,7 +164,23 @@ namespace RTU
                 }
             }
 
-            if (numberOP !=0)
+            // определяем сколько выбрано РЛС
+            int numberRLS = 0; // количество огневых позиций, выбранных пользователем
+            for (int l = 0; form.dataGridViewRls[0, l].Value != null; l++)
+            {
+                try
+                {
+                    if ((bool)form.dataGridViewRls[4, l].Value) numberRLS++;
+                }
+                catch (Exception)
+                {
+                    form.dataGridViewOp[4, l].Value = false;
+                    continue;
+                }
+            }
+
+
+            if (numberOP != 0 && numberRLS != 0)
             {
                 excelapp = new Excel.Application();
                 excelapp.Visible = true;
@@ -215,7 +231,7 @@ namespace RTU
 
                     excelcells = excelworksheet.get_Range("F1", Type.Missing);
                     excelcells.Merge();
-                    excelcells.Value2 = op[0].name;
+                    excelcells.Value2 = op[l].name;
                     excelcells.HorizontalAlignment = Excel.Constants.xlCenter;
                     excelcells.EntireRow.Font.Size = 18;
                     excelcells.EntireRow.Font.Bold = true;
@@ -245,6 +261,7 @@ namespace RTU
                             form.dataGridViewRls[4, r].Value = false;
                             continue;
                         }
+
                         for (int a = 0; a <= s; a++)
                         {
                             b = Convert.ToInt32(form.textBoxD1.Text) + a * Convert.ToInt32(form.textBoxStep.Text); // высчитываем направление
@@ -254,9 +271,12 @@ namespace RTU
                         b = 0;
                     }
                     numberList++;
-                }                
+                }
             }
-            else MessageBox.Show("Выберите огневую позицию");
+            else {
+                if (numberOP == 0) MessageBox.Show("Выберите огневую позицию");
+                if (numberRLS == 0) MessageBox.Show("Выберете РЛС");
+            }
         }
 
         /// <summary>
