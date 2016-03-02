@@ -180,7 +180,8 @@ namespace RTU
                 }
             }
 
-            numberStep = numberOP * numberRLS; 
+            int s = (Convert.ToInt32(form.textBoxD2.Text) - Convert.ToInt32(form.textBoxD1.Text)) / Convert.ToInt32(form.textBoxStep.Text);
+            numberStep = numberOP * numberRLS * s; 
 
             if (numberOP != 0 && numberRLS != 0)
             {
@@ -241,9 +242,7 @@ namespace RTU
                     excelcells.HorizontalAlignment = Excel.Constants.xlCenter;
                     excelcells.EntireRow.Font.Size = 16;
                     excelcells.EntireRow.Font.Bold = true;
-
-                    int s = (Convert.ToInt32(form.textBoxD2.Text) - Convert.ToInt32(form.textBoxD1.Text)) / Convert.ToInt32(form.textBoxStep.Text);
-                    numberStep = numberStep * s;
+                                        
                     int st = 2; // шаг через который начинать рисовать новую табличку
 
                     int b; //направления стрельбы
