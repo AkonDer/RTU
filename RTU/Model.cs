@@ -159,7 +159,6 @@ namespace RTU
                 }
                 catch (Exception)
                 {
-                    form.dataGridViewOp[4, l].Value = false;
                     continue;
                 }
             }
@@ -174,7 +173,6 @@ namespace RTU
                 }
                 catch (Exception)
                 {
-                    form.dataGridViewOp[4, l].Value = false;
                     continue;
                 }
             }
@@ -190,7 +188,6 @@ namespace RTU
                 excelappworkbook = excelappworkbooks[1];
                 excelsheets = excelappworkbook.Worksheets;
 
-
                 int numberList = 1; // номер текущего листа
                 for (int l = 0; form.dataGridViewOp[0, l].Value != null; l++)
                 {
@@ -201,7 +198,6 @@ namespace RTU
                     }
                     catch (Exception)
                     {
-                        form.dataGridViewOp[4, l].Value = false;
                         continue;
                     }
 
@@ -243,8 +239,6 @@ namespace RTU
                     excelcells.EntireRow.Font.Size = 16;
                     excelcells.EntireRow.Font.Bold = true;
 
-
-
                     int s = (Convert.ToInt32(form.textBoxD2.Text) - Convert.ToInt32(form.textBoxD1.Text)) / Convert.ToInt32(form.textBoxStep.Text);
                     int st = 2; // шаг через который начинать рисовать новую табличку
 
@@ -258,7 +252,6 @@ namespace RTU
                         }
                         catch (Exception)
                         {
-                            form.dataGridViewRls[4, r].Value = false;
                             continue;
                         }
 
@@ -372,7 +365,6 @@ namespace RTU
 
                 excelcells = excelworksheet.get_Range("I" + (a + i + 3).ToString(), Type.Missing); // угол места в в делениях угломера
                 excelcells.Value = rc.ToDU(rc.GetUMC);
-
             }
         }
 
