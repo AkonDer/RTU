@@ -13,6 +13,7 @@ namespace RTU
     public partial class Form1 : Form
     {
         Model mod;
+        bool check = true;
         public Form1()
         {
             InitializeComponent();
@@ -22,6 +23,12 @@ namespace RTU
         private void buttonRun_Click(object sender, EventArgs e)
         {
             mod.run();
+        }
+
+        private void buttonEdit_Click(object sender, EventArgs e)
+        {
+            mod.editing(check);
+            check = !check;
         }
     }
 }

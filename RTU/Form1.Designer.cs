@@ -46,9 +46,12 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.panelEdit = new System.Windows.Forms.Panel();
+            this.buttonEdit = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRls)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDTr)).BeginInit();
+            this.panelEdit.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -64,7 +67,7 @@
             // 
             this.textBoxName.Location = new System.Drawing.Point(147, 10);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(100, 20);
+            this.textBoxName.Size = new System.Drawing.Size(122, 20);
             this.textBoxName.TabIndex = 1;
             this.textBoxName.Text = "РС 9М215 без ТК";
             // 
@@ -88,7 +91,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(324, 17);
+            this.label3.Location = new System.Drawing.Point(331, 17);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(127, 13);
             this.label3.TabIndex = 0;
@@ -96,7 +99,7 @@
             // 
             // textBoxD1
             // 
-            this.textBoxD1.Location = new System.Drawing.Point(290, 39);
+            this.textBoxD1.Location = new System.Drawing.Point(305, 38);
             this.textBoxD1.Name = "textBoxD1";
             this.textBoxD1.Size = new System.Drawing.Size(33, 20);
             this.textBoxD1.TabIndex = 1;
@@ -105,7 +108,7 @@
             // 
             // textBoxD2
             // 
-            this.textBoxD2.Location = new System.Drawing.Point(354, 39);
+            this.textBoxD2.Location = new System.Drawing.Point(369, 38);
             this.textBoxD2.Name = "textBoxD2";
             this.textBoxD2.Size = new System.Drawing.Size(33, 20);
             this.textBoxD2.TabIndex = 1;
@@ -114,7 +117,7 @@
             // 
             // textBoxStep
             // 
-            this.textBoxStep.Location = new System.Drawing.Point(449, 39);
+            this.textBoxStep.Location = new System.Drawing.Point(464, 38);
             this.textBoxStep.Name = "textBoxStep";
             this.textBoxStep.Size = new System.Drawing.Size(28, 20);
             this.textBoxStep.TabIndex = 1;
@@ -124,7 +127,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(266, 42);
+            this.label4.Location = new System.Drawing.Point(281, 41);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(18, 13);
             this.label4.TabIndex = 0;
@@ -133,7 +136,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(330, 42);
+            this.label5.Location = new System.Drawing.Point(345, 41);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(19, 13);
             this.label5.TabIndex = 0;
@@ -142,7 +145,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(394, 42);
+            this.label6.Location = new System.Drawing.Point(409, 41);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(49, 13);
             this.label6.TabIndex = 0;
@@ -151,7 +154,7 @@
             // dataGridViewRls
             // 
             this.dataGridViewRls.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewRls.Location = new System.Drawing.Point(12, 83);
+            this.dataGridViewRls.Location = new System.Drawing.Point(12, 14);
             this.dataGridViewRls.Name = "dataGridViewRls";
             this.dataGridViewRls.Size = new System.Drawing.Size(323, 223);
             this.dataGridViewRls.TabIndex = 0;
@@ -159,7 +162,7 @@
             // dataGridViewOp
             // 
             this.dataGridViewOp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewOp.Location = new System.Drawing.Point(341, 83);
+            this.dataGridViewOp.Location = new System.Drawing.Point(341, 14);
             this.dataGridViewOp.Name = "dataGridViewOp";
             this.dataGridViewOp.Size = new System.Drawing.Size(323, 223);
             this.dataGridViewOp.TabIndex = 0;
@@ -167,7 +170,7 @@
             // dataGridViewDTr
             // 
             this.dataGridViewDTr.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewDTr.Location = new System.Drawing.Point(670, 83);
+            this.dataGridViewDTr.Location = new System.Drawing.Point(684, 97);
             this.dataGridViewDTr.Name = "dataGridViewDTr";
             this.dataGridViewDTr.Size = new System.Drawing.Size(206, 223);
             this.dataGridViewDTr.TabIndex = 0;
@@ -175,9 +178,9 @@
             // buttonRun
             // 
             this.buttonRun.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonRun.Location = new System.Drawing.Point(540, 12);
+            this.buttonRun.Location = new System.Drawing.Point(711, 17);
             this.buttonRun.Name = "buttonRun";
-            this.buttonRun.Size = new System.Drawing.Size(323, 41);
+            this.buttonRun.Size = new System.Drawing.Size(179, 41);
             this.buttonRun.TabIndex = 4;
             this.buttonRun.Text = "Рассчитать";
             this.buttonRun.UseVisualStyleBackColor = true;
@@ -204,23 +207,43 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(716, 67);
+            this.label9.Location = new System.Drawing.Point(734, 67);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(109, 13);
             this.label9.TabIndex = 5;
             this.label9.Text = "Данные траектории";
             // 
+            // panelEdit
+            // 
+            this.panelEdit.Controls.Add(this.dataGridViewRls);
+            this.panelEdit.Controls.Add(this.dataGridViewOp);
+            this.panelEdit.Location = new System.Drawing.Point(3, 83);
+            this.panelEdit.Name = "panelEdit";
+            this.panelEdit.Size = new System.Drawing.Size(675, 249);
+            this.panelEdit.TabIndex = 6;
+            // 
+            // buttonEdit
+            // 
+            this.buttonEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonEdit.Location = new System.Drawing.Point(513, 20);
+            this.buttonEdit.Name = "buttonEdit";
+            this.buttonEdit.Size = new System.Drawing.Size(192, 38);
+            this.buttonEdit.TabIndex = 7;
+            this.buttonEdit.Text = "Режим редактирования";
+            this.buttonEdit.UseVisualStyleBackColor = true;
+            this.buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(889, 320);
+            this.ClientSize = new System.Drawing.Size(902, 334);
+            this.Controls.Add(this.buttonEdit);
+            this.Controls.Add(this.panelEdit);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.dataGridViewDTr);
-            this.Controls.Add(this.dataGridViewRls);
-            this.Controls.Add(this.dataGridViewOp);
             this.Controls.Add(this.buttonRun);
             this.Controls.Add(this.textBoxStep);
             this.Controls.Add(this.textBoxD2);
@@ -239,6 +262,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRls)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDTr)).EndInit();
+            this.panelEdit.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -264,6 +288,8 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
+        public System.Windows.Forms.Panel panelEdit;
+        public System.Windows.Forms.Button buttonEdit;
     }
 }
 

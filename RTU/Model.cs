@@ -7,6 +7,7 @@ using System.Data;
 using Excel = Microsoft.Office.Interop.Excel;
 using ReCoord;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace RTU
 {
@@ -82,6 +83,18 @@ namespace RTU
             DatGridV opDG = new DatGridV(form.dataGridViewOp, new string[] { "ОП", "X", "Y", "H" }, 4, 9, true);
             DatGridV datDG = new DatGridV(form.dataGridViewDTr, new string[] { "Секунда", "X", "Y" }, 3, 9, false);
 
+            for (int i = 0; i < 4; i++)
+            {
+                form.dataGridViewRls.Columns[i].ReadOnly = true;
+                form.dataGridViewOp.Columns[i].ReadOnly = true;
+            }
+
+            form.dataGridViewRls.DefaultCellStyle.SelectionBackColor = form.dataGridViewRls.DefaultCellStyle.BackColor;
+            form.dataGridViewRls.DefaultCellStyle.SelectionForeColor = form.dataGridViewRls.DefaultCellStyle.ForeColor;
+            form.dataGridViewOp.DefaultCellStyle.SelectionBackColor = form.dataGridViewOp.DefaultCellStyle.BackColor;
+            form.dataGridViewOp.DefaultCellStyle.SelectionForeColor = form.dataGridViewOp.DefaultCellStyle.ForeColor;
+
+
             DataSet dt = getTabl("SELECT name, x, y, h FROM rls");
             for (int i = 0; i < dt.Tables[0].Rows.Count; i++)
             {
@@ -141,9 +154,9 @@ namespace RTU
                 dtr[i].y = Convert.ToDouble(form.dataGridViewDTr[2, i].Value);
                 i++;
             }
-            numberTr = i;            
+            numberTr = i;
             exceltabl();
-            
+
         }
 
         /// <summary>
@@ -181,7 +194,7 @@ namespace RTU
 
             // количество направлений
             int numberNapr = (Convert.ToInt32(form.textBoxD2.Text) - Convert.ToInt32(form.textBoxD1.Text)) / Convert.ToInt32(form.textBoxStep.Text);
-            numberStep = numberOP * numberRLS * numberNapr; 
+            numberStep = numberOP * numberRLS * numberNapr;
 
             if (numberOP != 0 && numberRLS != 0)
             {
@@ -245,7 +258,7 @@ namespace RTU
                     excelcells.HorizontalAlignment = Excel.Constants.xlCenter;
                     excelcells.EntireRow.Font.Size = 16;
                     excelcells.EntireRow.Font.Bold = true;
-                                        
+
                     int st = 2; // шаг через который начинать рисовать новую табличку
 
                     int b; //направления стрельбы
@@ -381,6 +394,41 @@ namespace RTU
 
                 excelcells = excelworksheet.get_Range("I" + (a + i + 3).ToString(), Type.Missing); // угол места в в делениях угломера
                 excelcells.Value = rc.ToDU(rc.GetUMC);
+            }
+        }
+
+        /// <summary>
+        /// В этой функции реализованно редактирование ИД
+        /// </summary>
+        public void editing(bool ch)
+        {
+            if (ch)
+            {
+                form.panelEdit.BackColor = Color.Red;
+                for (int i = 0; i < 4; i++)
+                {
+                    form.dataGridViewRls.Columns[i].ReadOnly = false;
+                    form.dataGridViewOp.Columns[i].ReadOnly = false;
+                }
+                form.dataGridViewRls.DefaultCellStyle.SelectionBackColor = SystemColors.Highlight;
+                form.dataGridViewRls.DefaultCellStyle.SelectionForeColor = Color.White;
+                form.dataGridViewOp.DefaultCellStyle.SelectionBackColor = SystemColors.Highlight;
+                form.dataGridViewOp.DefaultCellStyle.SelectionForeColor = Color.White;
+                form.buttonEdit.Text = "Сохранить и выйти из режима редактирования";
+            }
+            else
+            {
+                form.panelEdit.BackColor = SystemColors.Control;
+                for (int i = 0; i < 4; i++)
+                {
+                    form.dataGridViewRls.Columns[i].ReadOnly = true;
+                    form.dataGridViewOp.Columns[i].ReadOnly = true;
+                }
+                form.dataGridViewRls.DefaultCellStyle.SelectionBackColor = form.dataGridViewRls.DefaultCellStyle.BackColor;
+                form.dataGridViewRls.DefaultCellStyle.SelectionForeColor = form.dataGridViewRls.DefaultCellStyle.ForeColor;
+                form.dataGridViewOp.DefaultCellStyle.SelectionBackColor = form.dataGridViewOp.DefaultCellStyle.BackColor;
+                form.dataGridViewOp.DefaultCellStyle.SelectionForeColor = form.dataGridViewOp.DefaultCellStyle.ForeColor;
+                form.buttonEdit.Text = "Режим редактирования";
             }
         }
     }
