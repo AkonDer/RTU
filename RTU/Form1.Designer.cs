@@ -118,7 +118,7 @@
             this.textBoxStep.Name = "textBoxStep";
             this.textBoxStep.Size = new System.Drawing.Size(28, 20);
             this.textBoxStep.TabIndex = 1;
-            this.textBoxStep.Text = "2";
+            this.textBoxStep.Text = "1";
             this.textBoxStep.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label4

@@ -127,10 +127,6 @@ namespace RTU
         /// </summary>
         public void run()
         {
-
-
-            /* excelcells = (Excel.Range)excelworksheet.Cells[1, 1];
-            excelcells.Value2 = 23;*/
             int i = 0;
             while (form.dataGridViewDTr[0, i].Value != null)
             {
@@ -141,7 +137,6 @@ namespace RTU
             }
             numberTr = i;
             exceltabl();
-
         }
 
         /// <summary>
@@ -177,11 +172,9 @@ namespace RTU
                 }
             }
 
-
             if (numberOP != 0 && numberRLS != 0)
             {
                 excelapp = new Excel.Application();
-                excelapp.Visible = true;
                 excelapp.SheetsInNewWorkbook = numberOP; // возвращает или устанавливает количество листов
                 excelapp.Workbooks.Add(Type.Missing);
                 excelappworkbooks = excelapp.Workbooks;
@@ -265,6 +258,7 @@ namespace RTU
                     }
                     numberList++;
                 }
+                excelapp.Visible = true; // показываем наш лист excel
             }
             else {
                 if (numberOP == 0) MessageBox.Show("Выберите огневую позицию");
@@ -346,13 +340,13 @@ namespace RTU
                 excelcells.Value2 = dtr[i].sec;
 
                 excelcells = excelworksheet.get_Range("C" + (a + i + 3).ToString(), Type.Missing); // X топографическая
-                excelcells.Value2 = rc.GetXtr;
+                excelcells.Value2 = Math.Round(rc.GetXtr, 1);
 
                 excelcells = excelworksheet.get_Range("D" + (a + i + 3).ToString(), Type.Missing); // Y топографическая
-                excelcells.Value2 = rc.GetYtr;
+                excelcells.Value2 = Math.Round(rc.GetYtr, 1);
 
                 excelcells = excelworksheet.get_Range("E" + (a + i + 3).ToString(), Type.Missing); // наклонная дальность
-                excelcells.Value2 = rc.getDnakl;
+                excelcells.Value2 = Math.Round(rc.getDnakl, 1);
 
                 excelcells = excelworksheet.get_Range("F" + (a + i + 3).ToString(), Type.Missing); // азимут в градусах
                 excelcells.Value2 = rc.ToGrad(rc.GetAlf) + "° " + rc.ToMin(rc.GetAlf) + "' " + rc.ToSec(rc.GetAlf) + "''";
@@ -367,6 +361,7 @@ namespace RTU
                 excelcells.Value = rc.ToDU(rc.GetUMC);
             }
         }
-
     }
+
 }
+
