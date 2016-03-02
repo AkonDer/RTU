@@ -174,11 +174,12 @@
             // 
             // buttonRun
             // 
+            this.buttonRun.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonRun.Location = new System.Drawing.Point(540, 12);
             this.buttonRun.Name = "buttonRun";
             this.buttonRun.Size = new System.Drawing.Size(323, 41);
             this.buttonRun.TabIndex = 4;
-            this.buttonRun.Text = "Рассчетать";
+            this.buttonRun.Text = "Рассчитать";
             this.buttonRun.UseVisualStyleBackColor = true;
             this.buttonRun.Click += new System.EventHandler(this.buttonRun_Click);
             // 

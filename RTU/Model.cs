@@ -141,10 +141,9 @@ namespace RTU
                 dtr[i].y = Convert.ToDouble(form.dataGridViewDTr[2, i].Value);
                 i++;
             }
-            numberTr = i;
-            form2.progressBar1.Value = 0;
-            form2.Show();
+            numberTr = i;            
             exceltabl();
+            
         }
 
         /// <summary>
@@ -180,11 +179,15 @@ namespace RTU
                 }
             }
 
-            int s = (Convert.ToInt32(form.textBoxD2.Text) - Convert.ToInt32(form.textBoxD1.Text)) / Convert.ToInt32(form.textBoxStep.Text);
-            numberStep = numberOP * numberRLS * s; 
+            // количество направлений
+            int numberNapr = (Convert.ToInt32(form.textBoxD2.Text) - Convert.ToInt32(form.textBoxD1.Text)) / Convert.ToInt32(form.textBoxStep.Text);
+            numberStep = numberOP * numberRLS * numberNapr; 
 
             if (numberOP != 0 && numberRLS != 0)
             {
+                form2.progressBar1.Value = 0;
+                form2.Show();
+
                 excelapp = new Excel.Application();
                 excelapp.SheetsInNewWorkbook = numberOP; // возвращает или устанавливает количество листов
                 excelapp.Workbooks.Add(Type.Missing);
@@ -258,7 +261,7 @@ namespace RTU
                             continue;
                         }
 
-                        for (int a = 0; a <= s; a++)
+                        for (int a = 0; a <= numberNapr; a++)
                         {
                             b = Convert.ToInt32(form.textBoxD1.Text) + a * Convert.ToInt32(form.textBoxStep.Text); // высчитываем направление
                             excelTabTU(st, r, l, b);
