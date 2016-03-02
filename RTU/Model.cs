@@ -155,10 +155,21 @@ namespace RTU
             excelappworkbook = excelappworkbooks[1];
             excelsheets = excelappworkbook.Worksheets;
 
+            int numberList = 1; // номер текущего листа
             for (int l = 0; form.dataGridViewOp[0, l].Value != null; l++)
             {
+                //проверка отмечен ли соответствующий чекбокс c обработкой ошибки                  
+                try
+                {
+                    if (!(bool)form.dataGridViewOp[4, l].Value) continue;
+                }
+                catch (Exception)
+                {
+                    form.dataGridViewOp[4, l].Value = false;
+                    continue;
+                }
 
-                excelworksheet = (Excel.Worksheet)excelsheets.get_Item(l + 1);
+                excelworksheet = (Excel.Worksheet)excelsheets.get_Item(numberList);
 
                 excelworksheet.PageSetup.PrintTitleRows = "A1"; // Замораживаем строку заголовка на каждой странице
                 excelworksheet.PageSetup.RightMargin = 40; //устанавливаем размер левого поля
@@ -203,7 +214,17 @@ namespace RTU
 
                 int b; //направления стрельбы
                 for (int r = 0; form.dataGridViewRls[0, r].Value != null; r++)
-                {
+                {   
+                    // обработка ошибки                  
+                    try
+                    {
+                        if (!(bool)form.dataGridViewRls[4, r].Value) continue;
+                    }
+                    catch (Exception)
+                    {
+                        form.dataGridViewRls[4, r].Value = false;
+                        continue;
+                    }
                     for (int a = 0; a <= s; a++)
                     {
                         b = Convert.ToInt32(form.textBoxD1.Text) + a * Convert.ToInt32(form.textBoxStep.Text); // высчитываем направление
@@ -212,6 +233,7 @@ namespace RTU
                     }
                     b = 0;
                 }
+                numberList++;
             }
         }
         /// <summary>
